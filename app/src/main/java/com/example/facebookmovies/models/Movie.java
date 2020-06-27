@@ -19,6 +19,7 @@ public class Movie {
     String title;
     String overview;
     Double voteAverage;
+    Integer id;
 
     public Movie(){}
 
@@ -32,6 +33,7 @@ public class Movie {
         title = jsonObject.getString("title");
         overview = jsonObject.getString("overview");
         voteAverage = jsonObject.getDouble("vote_average");
+        id = jsonObject.getInt("id");
     }
 
     public static List<Movie> fromJsonArray(JSONArray movieJsonArray) throws JSONException {
@@ -42,6 +44,9 @@ public class Movie {
         return movies;
     }
 
+    public int getId(){
+        return id;
+    }
 
     public String getPosterPath() {
         return String.format("https://image.tmdb.org/t/p/w342%s", posterPath);

@@ -1,8 +1,10 @@
 package com.example.facebookmovies;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -32,7 +34,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
         View view =binding.getRoot();
         setContentView(view);
 
-        movie = (Movie) Parcels.unwrap(getIntent().getParcelableExtra(Movie.class.getSimpleName()));
+        movie = Parcels.unwrap(getIntent().getParcelableExtra(Movie.class.getSimpleName()));
         Log.d("MovieDetailsActivity", String.format("Showing details for '%s'", movie.getTitle()));
 
 
@@ -44,7 +46,18 @@ public class MovieDetailsActivity extends AppCompatActivity {
         float voteAverage = movie.getVoteAverage().floatValue();
         binding.rbVoteAverage.setRating(voteAverage = voteAverage > 0 ? voteAverage / 2.0f : voteAverage);
 
-        Log.d("MovieDetailsActivity", String.format("Movie url for '%s'", movie.getPosterPath()));
-        Glide.with(this).load(movie.getPosterPath()).into(binding.ivPoster);
+        Log.d("MovieDetailsActivity", String.format("Movie url for '%s'", movie.getBackdropPath()));
+        Glide.with(this).load(movie.getBackdropPath()).into(binding.ivPoster);
+    }
+
+    public void onClick(View view) {
+            // create intent for the new activity
+            Intent intent = new Intent(this, MovieTrailerActivity.class);
+            // serialize the movie using parceler, use its short name as a key
+            intent.putExtra(Movie.class.getSimpleName(), Parcels.wrap(movie));
+            // show the activity
+            this.startActivity(intent);
+
     }
 }
+

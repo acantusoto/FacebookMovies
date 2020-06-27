@@ -8,10 +8,14 @@
 
     <ImageView
         android:id="@+id/ivPoster"
-        android:layout_width="200dp"
-        android:layout_height="300dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:onClick="onClick"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView

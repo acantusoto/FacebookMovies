@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
-        rvMovies = findViewById(R.id.rvMovies);
+        rvMovies = binding.rvMovies;
         movies = new ArrayList<>();
 
 

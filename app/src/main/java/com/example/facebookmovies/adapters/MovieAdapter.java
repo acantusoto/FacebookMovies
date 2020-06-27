@@ -85,10 +85,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             binding.tvOverview.setText(movie.getOverview());
             String imageUrl;
             //if phone is in landscape
+            int radius = 30; // corner radius, higher value = more rounded
+            int margin = 0; // crop margin, set to 0 for corners with no crop
             if(context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
 //                imageUrl = movie.getBackdropPath();
-                int radius = 30; // corner radius, higher value = more rounded
-                int margin = 0; // crop margin, set to 0 for corners with no crop
                 Glide.with(context)
                         .load(movie.getBackdropPath())
                         .placeholder(R.drawable.flicks_backdrop_placeholder)
@@ -99,8 +99,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             //then image url is = backdrop image
             else{
                 //imageUrl = movie.getPosterPath();
-                int radius = 30; // corner radius, higher value = more rounded
-                int margin = 0; // crop margin, set to 0 for corners with no crop
                 Glide.with(context)
                         .load(movie.getPosterPath())
                         .placeholder(R.drawable.flicks_movie_placeholder)
@@ -108,13 +106,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
                         .transform(new RoundedCornersTransformation(radius, margin))
                         .into(binding.ivPoster);
             }
-
-//            int radius = 30; // corner radius, higher value = more rounded
-//            int margin = 0; // crop margin, set to 0 for corners with no crop
-//            Glide.with(context)
-//                    .load(imageUrl).fitCenter()
-//                    .into(ivPoster);
-            //Glide.with(context).load(imageUrl).into(ivPoster);
         }
 
         @Override
