@@ -17,15 +17,20 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.example.facebookmovies.MovieDetailsActivity;
 import com.example.facebookmovies.R;
+import com.example.facebookmovies.databinding.ItemMovieBinding;
 import com.example.facebookmovies.models.Movie;
 
 import org.parceler.Parcels;
 
 import java.util.List;
+import java.util.Objects;
 
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
+
+    ItemMovieBinding binding;
+
 
     Context context;
     List<Movie> movies;
@@ -41,8 +46,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Log.d("MovieAdapter","onCreateViewHolder");
-        View movieView = LayoutInflater.from(context).inflate(R.layout.item_movie, parent, false);
-        return new ViewHolder(movieView);
+        binding = ItemMovieBinding.inflate(LayoutInflater.from(context),parent,false);
+        return new ViewHolder(binding);
 
     }
 
@@ -64,28 +69,20 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         return movies.size();
     }
 
-
-
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        TextView tvTitle;
-        TextView tvOverview;
-        ImageView ivPoster;
+        ItemMovieBinding binding;
 
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            tvTitle = itemView.findViewById(R.id.tvTitle);
-            tvOverview = itemView.findViewById(R.id.tvOverview);
-            ivPoster = itemView.findViewById(R.id.ivPoster);
-            itemView.setOnClickListener(this);
-
+        public ViewHolder( ItemMovieBinding itemView) {
+            super(itemView.getRoot());
+            binding = itemView;
+            // add this as the itemView's OnClickListener
+            itemView.getRoot().setOnClickListener(this);
         }
 
-
-
         public void bind(Movie movie) {
-            tvTitle.setText(movie.getTitle());
-            tvOverview.setText(movie.getOverview());
+            binding.tvTitle.setText(movie.getTitle());
+            binding.tvOverview.setText(movie.getOverview());
             String imageUrl;
             //if phone is in landscape
             if(context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
@@ -94,8 +91,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
                 int margin = 0; // crop margin, set to 0 for corners with no crop
                 Glide.with(context)
                         .load(movie.getBackdropPath())
+                        .placeholder(R.drawable.flicks_backdrop_placeholder)
+                        .fitCenter()
                         .transform(new RoundedCornersTransformation(radius, margin))
-                        .into(ivPoster);
+                        .into(binding.ivPoster);
             }
             //then image url is = backdrop image
             else{
@@ -104,8 +103,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
                 int margin = 0; // crop margin, set to 0 for corners with no crop
                 Glide.with(context)
                         .load(movie.getPosterPath())
+                        .placeholder(R.drawable.flicks_movie_placeholder)
+                        .fitCenter()
                         .transform(new RoundedCornersTransformation(radius, margin))
-                        .into(ivPoster);
+                        .into(binding.ivPoster);
             }
 
 //            int radius = 30; // corner radius, higher value = more rounded
